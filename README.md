@@ -1,6 +1,11 @@
 # scale-sim-front
 Generate input files for [SCALE-Sim](https://github.com/ARM-software/SCALE-Sim) easily from Keras/PyTorch models.  
 
+## Prerequisites
+Tensorflow 2.0+  
+PyTorch  
+torchvision  
+
 ## How to run
 Just to see how it runs, try the following command.
 ```
