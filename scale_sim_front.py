@@ -27,7 +27,7 @@ if __name__ == "__main__":
     target_sim = 'scale-sim'
 
     parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
-    parser.add_argument('--api_name', type=str, default="pytorch", help="api choices: pytorch, keras")
+    parser.add_argument('--api_name', type=str, default="keras", help="api choices: pytorch, keras")
     parser.add_argument('--input_size', type=str, default="3,224,224", help='input size')
     parser.add_argument('--model', type=str, default="mobilenet_v2",
     help='model from torchvision choices: \n'
@@ -43,6 +43,7 @@ if __name__ == "__main__":
          'nasnet_mobile\n'
          '-----\n'
          'To use a custom model, enter custom for this arguement')
+
     parser.add_argument('--custom', type=str, default="none",
     help='Enter the custom network python file name here.\n'
          'The file should have a function with same file name\n '
@@ -51,17 +52,21 @@ if __name__ == "__main__":
 
 
     parser.add_argument('--dataflow', type=str, default="os", help='dataflow choices: dla, os, ws, rs')
-    parser.add_argument('--outfile', type=str, default="out.m", help='output file name')
+    parser.add_argument('--outfile', type=str, default="result.csv", help='output file name')
     opt = parser.parse_args()
     INPUT_SIZE = tuple((int(d) for d in str.split(opt.input_size, ",")))
 
     print('Begin processing')
     print('API name: ' + str(opt.api_name))
-    print('Model name: ' + str(opt.model))
+    if(opt.model == 'custom'):
+        print('A user-defined model will be used.')
+        print('Model will be loaded from ' + str(opt.custom))
+    else:
+        print('Model name: ' + str(opt.model))
     print('Input size: ' + str(INPUT_SIZE))
     if(opt.api_name =='keras'):
         from keras_helper import get_model
-        from keras_maestro_summary import summary
+        from keras_summary import summary
 
         model = None
         if opt.model == 'custom':
